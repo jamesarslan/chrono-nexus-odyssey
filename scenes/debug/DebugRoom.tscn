@@ -1,0 +1,129 @@
+[gd_scene format=3]
+
+[node name="root" type="Node3D" unique_id=398534267]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1094388671]
+
+[node name="SunLight" type="DirectionalLight3D" parent="." unique_id=1599652907]
+light_color = Color(0, 0, 0, 1)
+shadow_enabled = true
+
+[node name="AmbientFill" type="OmniLight3D" parent="." unique_id=2082748475]
+light_color = Color(0, 0, 0, 1)
+light_energy = 0.4
+omni_range = 30.0
+
+[node name="Floor" type="StaticBody3D" parent="." unique_id=1644720371]
+
+[node name="FloorMesh" type="MeshInstance3D" parent="Floor" unique_id=2119086900]
+
+[node name="FloorCollision" type="CollisionShape3D" parent="Floor" unique_id=1915060107]
+
+[node name="PlayerZone" type="Node3D" parent="." unique_id=751358351]
+
+[node name="PlayerSpawn" type="Marker3D" parent="PlayerZone" unique_id=1761871329]
+
+[node name="DebugCamera" type="Camera3D" parent="PlayerZone" unique_id=587739370]
+current = true
+fov = 60.0
+
+[node name="PlayerZoneLabel" type="Label3D" parent="PlayerZone" unique_id=922224022]
+modulate = Color(0, 0, 0, 1)
+text = "PLAYER SPAWN ZONE"
+font_size = 48
+
+[node name="EnemyShowcase" type="Node3D" parent="." unique_id=722551950]
+
+[node name="EnemySpawn_Wraith" type="Marker3D" parent="EnemyShowcase" unique_id=481367220]
+
+[node name="WraithLabel" type="Label3D" parent="EnemyShowcase" unique_id=545627691]
+modulate = Color(0, 0, 0, 1)
+text = "PARADOX WRAITH"
+font_size = 36
+
+[node name="EnemySpawn_Riftborn" type="Marker3D" parent="EnemyShowcase" unique_id=1348263831]
+
+[node name="RiftbornLabel" type="Label3D" parent="EnemyShowcase" unique_id=1037885286]
+modulate = Color(0, 0, 0, 1)
+text = "RIFTBORN SCOUT"
+font_size = 36
+
+[node name="BossSpawn_Sentinel" type="Marker3D" parent="EnemyShowcase" unique_id=1468950256]
+
+[node name="SentinelLabel" type="Label3D" parent="EnemyShowcase" unique_id=1584839424]
+modulate = Color(0, 0, 0, 1)
+text = "VOID SENTINEL (BOSS)"
+font_size = 36
+
+[node name="InteractableShowcase" type="Node3D" parent="." unique_id=1966801275]
+
+[node name="AnchorNode_Demo" type="Area3D" parent="InteractableShowcase" unique_id=1120578167]
+
+[node name="AnchorLabel" type="Label3D" parent="InteractableShowcase" unique_id=454266232]
+modulate = Color(0, 0, 0, 1)
+text = "ANCHOR NODE (Checkpoint)"
+
+[node name="ForgeNexus_Demo" type="Area3D" parent="InteractableShowcase" unique_id=1084664641]
+
+[node name="ForgeLabel" type="Label3D" parent="InteractableShowcase" unique_id=1160071680]
+modulate = Color(0, 0, 0, 1)
+text = "FORGE NEXUS (Upgrades)"
+
+[node name="Collectible_Demo" type="Area3D" parent="InteractableShowcase" unique_id=774397818]
+
+[node name="CollectibleLabel" type="Label3D" parent="InteractableShowcase" unique_id=549805114]
+modulate = Color(0, 0, 0, 1)
+text = "RESONANCE SHARD (Collectible)"
+
+[node name="PortalShowcase" type="Node3D" parent="." unique_id=947314271]
+
+[node name="NexusRift_Demo" type="Area3D" parent="PortalShowcase" unique_id=979845755]
+
+[node name="PortalLabel" type="Label3D" parent="PortalShowcase" unique_id=1878172345]
+modulate = Color(0, 0, 0, 1)
+text = "NEXUS RIFT PORTAL (Scene Transition)"
+font_size = 36
+
+[node name="LightingShowcase" type="Node3D" parent="." unique_id=1263564693]
+
+[node name="Light_Aetherian" type="OmniLight3D" parent="LightingShowcase" unique_id=284536551]
+light_color = Color(0, 0, 0, 1)
+light_energy = 2.0
+omni_range = 8.0
+
+[node name="AetherianLightLabel" type="Label3D" parent="LightingShowcase" unique_id=1520611157]
+modulate = Color(0, 0, 0, 1)
+text = "AETHERIAN MOOD"
+font_size = 28
+
+[node name="Light_Riftborn" type="OmniLight3D" parent="LightingShowcase" unique_id=1792941112]
+light_color = Color(0, 0, 0, 1)
+light_energy = 2.0
+omni_range = 8.0
+
+[node name="RiftbornLightLabel" type="Label3D" parent="LightingShowcase" unique_id=420125393]
+modulate = Color(0, 0, 0, 1)
+text = "RIFTBORN MOOD"
+font_size = 28
+
+[node name="Light_Void" type="OmniLight3D" parent="LightingShowcase" unique_id=578890600]
+light_color = Color(0, 0, 0, 1)
+light_energy = 2.0
+omni_range = 8.0
+
+[node name="VoidLightLabel" type="Label3D" parent="LightingShowcase" unique_id=2032307192]
+modulate = Color(0, 0, 0, 1)
+text = "VOID / CORRUPTION MOOD"
+font_size = 28
+
+[node name="DebugHUD" type="CanvasLayer" parent="." unique_id=365310950]
+
+[node name="TitleLabel" type="Label" parent="DebugHUD" unique_id=2030541815]
+offset_right = 336.0
+offset_bottom = 23.0
+text = "DEBUG ROOM - Design Language Reference"
+
+[node name="LegendLabel" type="Label" parent="DebugHUD" unique_id=474122312]
+offset_right = 821.0
+offset_bottom = 23.0
+text = "ZONES: Center=Player | Right=Enemies | Left-Front=Interactables | Back=Portal | Far-Left=Lighting Moods"
