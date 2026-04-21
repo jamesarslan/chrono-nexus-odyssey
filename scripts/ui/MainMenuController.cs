@@ -11,10 +11,10 @@ public partial class MainMenuController : Control
 
 	public override void _Ready()
 	{
-		_newGameBtn = GetNode<Button>("VBoxContainer/NewGameButton");
-		_continueBtn = GetNode<Button>("VBoxContainer/ContinueButton");
-		_settingsBtn = GetNode<Button>("VBoxContainer/SettingsButton");
-		_quitBtn = GetNode<Button>("VBoxContainer/QuitButton");
+		_newGameBtn = GetNode<Button>("NewGameButton");
+		_continueBtn = GetNode<Button>("ContinueButton");
+		_settingsBtn = GetNode<Button>("SettingsButton");
+		_quitBtn = GetNode<Button>("QuitButton");
 
 		_newGameBtn.Pressed += OnNewGame;
 		_continueBtn.Pressed += OnContinue;

@@ -1,0 +1,146 @@
+[gd_scene load_steps=4 format=3 uid="uid://aether_vessel_001"]
+
+[ext_resource type="Script" path="res://scripts/player/PlayerController.cs" id="1_player"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
+radius = 0.35
+height = 1.8
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1"]
+sky_top_color = Color(0.05, 0.01, 0.15, 1)
+sky_horizon_color = Color(0.15, 0.05, 0.3, 1)
+ground_bottom_color = Color(0.02, 0.01, 0.05, 1)
+ground_horizon_color = Color(0.1, 0.03, 0.2, 1)
+
+[node name="AetherVessel" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_1")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866, -0.25, 0.433, 0, 0.866, 0.5, -0.5, -0.433, 0.75, 0, 10, 0)
+light_color = Color(0.6, 0.5, 0.9, 1)
+light_energy = 0.8
+shadow_enabled = true
+
+[node name="AmbientLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+light_color = Color(0.3, 0.6, 0.9, 1)
+light_energy = 0.5
+omni_range = 20.0
+
+[node name="VesselFloor" type="StaticBody3D" parent="."]
+
+[node name="FloorMesh" type="MeshInstance3D" parent="VesselFloor"]
+mesh = SubResource("BoxMesh_floor")
+
+[node name="FloorCollision" type="CollisionShape3D" parent="VesselFloor"]
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+script = ExtResource("1_player")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_player")
+
+[node name="PlayerMesh" type="MeshInstance3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+
+[node name="CameraPivot" type="Node3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Player/CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+current = true
+fov = 70.0
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="HealthBar" type="ProgressBar" parent="HUD"]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 270.0
+offset_bottom = 45.0
+value = 100.0
+show_percentage = false
+
+[node name="HealthLabel" type="Label" parent="HUD/HealthBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "HP"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ChronosBar" type="ProgressBar" parent="HUD"]
+offset_left = 20.0
+offset_top = 50.0
+offset_right = 270.0
+offset_bottom = 75.0
+value = 100.0
+show_percentage = false
+
+[node name="ChronosLabel" type="Label" parent="HUD/ChronosBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Chronos"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NexusEnergyLabel" type="Label" parent="HUD"]
+offset_left = 20.0
+offset_top = 85.0
+offset_right = 270.0
+offset_bottom = 110.0
+text = "Nexus Energy: 0"
+
+[node name="AnchorNode" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1, 0)
+
+[node name="AnchorCollision" type="CollisionShape3D" parent="AnchorNode"]
+
+[node name="AnchorVisual" type="MeshInstance3D" parent="AnchorNode"]
+
+[node name="InteractPrompt" type="Label3D" parent="AnchorNode"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+text = "Press E to Anchor"
+font_size = 32
+visible = false
+
+[node name="ForgeNexus" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, 0)
+
+[node name="ForgeVisual" type="MeshInstance3D" parent="ForgeNexus"]
+
+[node name="ForgePrompt" type="Label3D" parent="ForgeNexus"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+text = "Press E - Forge Nexus"
+font_size = 32
+visible = false
+
+[node name="TemporalLog" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -5)
+
+[node name="LogVisual" type="MeshInstance3D" parent="TemporalLog"]
+
+[node name="LogPrompt" type="Label3D" parent="TemporalLog"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+text = "Press E - Temporal Log"
+font_size = 32
+visible = false
+
+[node name="NexusRiftPortal" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 8)
+
+[node name="PortalVisual" type="MeshInstance3D" parent="NexusRiftPortal"]
+
+[node name="PortalPrompt" type="Label3D" parent="NexusRiftPortal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+text = "Press E - Enter Nexus Rift"
+font_size = 32
+visible = false
