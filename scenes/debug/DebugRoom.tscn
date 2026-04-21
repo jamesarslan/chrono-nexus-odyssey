@@ -1,129 +1,280 @@
-[gd_scene format=3]
+[gd_scene load_steps=16 format=3]
 
-[node name="root" type="Node3D" unique_id=398534267]
+[sub_resource type="BoxMesh" id="BoxMesh_floor"]
+size = Vector3(40, 0.2, 40)
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1094388671]
+[sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
+size = Vector3(40, 0.2, 40)
 
-[node name="SunLight" type="DirectionalLight3D" parent="." unique_id=1599652907]
-light_color = Color(0, 0, 0, 1)
+[sub_resource type="StandardMaterial3D" id="Mat_floor"]
+albedo_color = Color(0.15, 0.1, 0.2, 1)
+metallic = 0.3
+roughness = 0.8
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_player"]
+radius = 0.35
+height = 1.8
+
+[sub_resource type="StandardMaterial3D" id="Mat_player"]
+albedo_color = Color(0, 0.9, 0.9, 1)
+emission_enabled = true
+emission = Color(0, 0.5, 0.5, 1)
+emission_energy_multiplier = 0.5
+
+[sub_resource type="BoxMesh" id="BoxMesh_enemy"]
+size = Vector3(0.8, 1.6, 0.8)
+
+[sub_resource type="StandardMaterial3D" id="Mat_wraith"]
+albedo_color = Color(0.8, 0.15, 0.15, 1)
+emission_enabled = true
+emission = Color(0.5, 0, 0, 1)
+emission_energy_multiplier = 0.3
+
+[sub_resource type="StandardMaterial3D" id="Mat_riftborn"]
+albedo_color = Color(0.15, 0.7, 0.2, 1)
+emission_enabled = true
+emission = Color(0, 0.4, 0.1, 1)
+emission_energy_multiplier = 0.3
+
+[sub_resource type="StandardMaterial3D" id="Mat_sentinel"]
+albedo_color = Color(0.9, 0.5, 0.1, 1)
+emission_enabled = true
+emission = Color(0.6, 0.3, 0, 1)
+emission_energy_multiplier = 0.4
+
+[sub_resource type="SphereMesh" id="SphereMesh_anchor"]
+radius = 0.5
+height = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_anchor"]
+albedo_color = Color(0.3, 0.6, 1, 1)
+emission_enabled = true
+emission = Color(0.2, 0.4, 0.8, 1)
+emission_energy_multiplier = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_forge"]
+size = Vector3(1.5, 1, 1.5)
+
+[sub_resource type="StandardMaterial3D" id="Mat_forge"]
+albedo_color = Color(1, 0.6, 0, 1)
+emission_enabled = true
+emission = Color(0.8, 0.4, 0, 1)
+emission_energy_multiplier = 0.6
+
+[sub_resource type="SphereMesh" id="SphereMesh_shard"]
+radius = 0.3
+height = 0.6
+
+[sub_resource type="StandardMaterial3D" id="Mat_shard"]
+albedo_color = Color(0.7, 0.3, 1, 1)
+transparency = 1
+albedo_color = Color(0.7, 0.3, 1, 0.8)
+emission_enabled = true
+emission = Color(0.5, 0.1, 0.8, 1)
+emission_energy_multiplier = 1.0
+
+[node name="DebugRoom" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+
+[node name="SunLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866, -0.25, 0.433, 0, 0.866, 0.5, -0.5, -0.433, 0.75, 0, 10, 0)
+light_color = Color(0.9, 0.85, 1.0, 1)
+light_energy = 1.0
 shadow_enabled = true
 
-[node name="AmbientFill" type="OmniLight3D" parent="." unique_id=2082748475]
-light_color = Color(0, 0, 0, 1)
+[node name="AmbientFill" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+light_color = Color(0.3, 0.4, 0.8, 1)
 light_energy = 0.4
 omni_range = 30.0
 
-[node name="Floor" type="StaticBody3D" parent="." unique_id=1644720371]
+[node name="Floor" type="StaticBody3D" parent="."]
 
-[node name="FloorMesh" type="MeshInstance3D" parent="Floor" unique_id=2119086900]
+[node name="FloorMesh" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("BoxMesh_floor")
+surface_material_override/0 = SubResource("Mat_floor")
 
-[node name="FloorCollision" type="CollisionShape3D" parent="Floor" unique_id=1915060107]
+[node name="FloorCollision" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("BoxShape3D_floor")
 
-[node name="PlayerZone" type="Node3D" parent="." unique_id=751358351]
+[node name="PlayerZone" type="Node3D" parent="."]
 
-[node name="PlayerSpawn" type="Marker3D" parent="PlayerZone" unique_id=1761871329]
+[node name="PlayerSpawn" type="Marker3D" parent="PlayerZone"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
-[node name="DebugCamera" type="Camera3D" parent="PlayerZone" unique_id=587739370]
+[node name="PlayerPlaceholder" type="MeshInstance3D" parent="PlayerZone"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_player")
+surface_material_override/0 = SubResource("Mat_player")
+
+[node name="DebugCamera" type="Camera3D" parent="PlayerZone"]
+transform = Transform3D(1, 0, 0, 0, 0.866, 0.5, 0, -0.5, 0.866, 0, 8, 12)
 current = true
 fov = 60.0
 
-[node name="PlayerZoneLabel" type="Label3D" parent="PlayerZone" unique_id=922224022]
-modulate = Color(0, 0, 0, 1)
+[node name="PlayerZoneLabel" type="Label3D" parent="PlayerZone"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
+modulate = Color(0, 1, 1, 1)
 text = "PLAYER SPAWN ZONE"
 font_size = 48
 
-[node name="EnemyShowcase" type="Node3D" parent="." unique_id=722551950]
+[node name="EnemyShowcase" type="Node3D" parent="."]
 
-[node name="EnemySpawn_Wraith" type="Marker3D" parent="EnemyShowcase" unique_id=481367220]
+[node name="EnemySpawn_Wraith" type="Marker3D" parent="EnemyShowcase"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 1, -5)
 
-[node name="WraithLabel" type="Label3D" parent="EnemyShowcase" unique_id=545627691]
-modulate = Color(0, 0, 0, 1)
+[node name="WraithMesh" type="MeshInstance3D" parent="EnemyShowcase"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 1, -5)
+mesh = SubResource("BoxMesh_enemy")
+surface_material_override/0 = SubResource("Mat_wraith")
+
+[node name="WraithLabel" type="Label3D" parent="EnemyShowcase"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 3, -5)
+modulate = Color(1, 0.2, 0.2, 1)
 text = "PARADOX WRAITH"
 font_size = 36
 
-[node name="EnemySpawn_Riftborn" type="Marker3D" parent="EnemyShowcase" unique_id=1348263831]
+[node name="EnemySpawn_Riftborn" type="Marker3D" parent="EnemyShowcase"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 1, -5)
 
-[node name="RiftbornLabel" type="Label3D" parent="EnemyShowcase" unique_id=1037885286]
-modulate = Color(0, 0, 0, 1)
+[node name="RiftbornMesh" type="MeshInstance3D" parent="EnemyShowcase"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 1, -5)
+mesh = SubResource("BoxMesh_enemy")
+surface_material_override/0 = SubResource("Mat_riftborn")
+
+[node name="RiftbornLabel" type="Label3D" parent="EnemyShowcase"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 3, -5)
+modulate = Color(1, 0.5, 0, 1)
 text = "RIFTBORN SCOUT"
 font_size = 36
 
-[node name="BossSpawn_Sentinel" type="Marker3D" parent="EnemyShowcase" unique_id=1468950256]
+[node name="BossSpawn_Sentinel" type="Marker3D" parent="EnemyShowcase"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 1, -10)
 
-[node name="SentinelLabel" type="Label3D" parent="EnemyShowcase" unique_id=1584839424]
-modulate = Color(0, 0, 0, 1)
+[node name="SentinelMesh" type="MeshInstance3D" parent="EnemyShowcase"]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 12.5, 1.5, -10)
+mesh = SubResource("BoxMesh_enemy")
+surface_material_override/0 = SubResource("Mat_sentinel")
+
+[node name="SentinelLabel" type="Label3D" parent="EnemyShowcase"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 4, -10)
+modulate = Color(1, 0, 0, 1)
 text = "VOID SENTINEL (BOSS)"
 font_size = 36
 
-[node name="InteractableShowcase" type="Node3D" parent="." unique_id=1966801275]
+[node name="InteractableShowcase" type="Node3D" parent="."]
 
-[node name="AnchorNode_Demo" type="Area3D" parent="InteractableShowcase" unique_id=1120578167]
+[node name="AnchorNode_Demo" type="Area3D" parent="InteractableShowcase"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 1, -5)
 
-[node name="AnchorLabel" type="Label3D" parent="InteractableShowcase" unique_id=454266232]
-modulate = Color(0, 0, 0, 1)
+[node name="AnchorMesh" type="MeshInstance3D" parent="InteractableShowcase"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 1.5, -5)
+mesh = SubResource("SphereMesh_anchor")
+surface_material_override/0 = SubResource("Mat_anchor")
+
+[node name="AnchorLabel" type="Label3D" parent="InteractableShowcase"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 3, -5)
+modulate = Color(0.5, 0.8, 1, 1)
 text = "ANCHOR NODE (Checkpoint)"
+font_size = 32
 
-[node name="ForgeNexus_Demo" type="Area3D" parent="InteractableShowcase" unique_id=1084664641]
+[node name="ForgeNexus_Demo" type="Area3D" parent="InteractableShowcase"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.5, -10)
 
-[node name="ForgeLabel" type="Label3D" parent="InteractableShowcase" unique_id=1160071680]
-modulate = Color(0, 0, 0, 1)
+[node name="ForgeMesh" type="MeshInstance3D" parent="InteractableShowcase"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.6, -10)
+mesh = SubResource("BoxMesh_forge")
+surface_material_override/0 = SubResource("Mat_forge")
+
+[node name="ForgeLabel" type="Label3D" parent="InteractableShowcase"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 3, -10)
+modulate = Color(1, 0.6, 0, 1)
 text = "FORGE NEXUS (Upgrades)"
+font_size = 32
 
-[node name="Collectible_Demo" type="Area3D" parent="InteractableShowcase" unique_id=774397818]
+[node name="Collectible_Demo" type="Area3D" parent="InteractableShowcase"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 1.5, -15)
 
-[node name="CollectibleLabel" type="Label3D" parent="InteractableShowcase" unique_id=549805114]
-modulate = Color(0, 0, 0, 1)
+[node name="ShardMesh" type="MeshInstance3D" parent="InteractableShowcase"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 1.5, -15)
+mesh = SubResource("SphereMesh_shard")
+surface_material_override/0 = SubResource("Mat_shard")
+
+[node name="CollectibleLabel" type="Label3D" parent="InteractableShowcase"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 3, -15)
+modulate = Color(0.8, 0.4, 1, 1)
 text = "RESONANCE SHARD (Collectible)"
+font_size = 32
 
-[node name="PortalShowcase" type="Node3D" parent="." unique_id=947314271]
+[node name="PortalShowcase" type="Node3D" parent="."]
 
-[node name="NexusRift_Demo" type="Area3D" parent="PortalShowcase" unique_id=979845755]
+[node name="NexusRift_Demo" type="Area3D" parent="PortalShowcase"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -15)
 
-[node name="PortalLabel" type="Label3D" parent="PortalShowcase" unique_id=1878172345]
-modulate = Color(0, 0, 0, 1)
+[node name="PortalLabel" type="Label3D" parent="PortalShowcase"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -15)
+modulate = Color(0.6, 0.2, 1, 1)
 text = "NEXUS RIFT PORTAL (Scene Transition)"
 font_size = 36
 
-[node name="LightingShowcase" type="Node3D" parent="." unique_id=1263564693]
+[node name="LightingShowcase" type="Node3D" parent="."]
 
-[node name="Light_Aetherian" type="OmniLight3D" parent="LightingShowcase" unique_id=284536551]
-light_color = Color(0, 0, 0, 1)
+[node name="Light_Aetherian" type="OmniLight3D" parent="LightingShowcase"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 3, 8)
+light_color = Color(0.4, 0.6, 1, 1)
 light_energy = 2.0
 omni_range = 8.0
 
-[node name="AetherianLightLabel" type="Label3D" parent="LightingShowcase" unique_id=1520611157]
-modulate = Color(0, 0, 0, 1)
+[node name="AetherianLightLabel" type="Label3D" parent="LightingShowcase"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 5, 8)
+modulate = Color(0.4, 0.6, 1, 1)
 text = "AETHERIAN MOOD"
 font_size = 28
 
-[node name="Light_Riftborn" type="OmniLight3D" parent="LightingShowcase" unique_id=1792941112]
-light_color = Color(0, 0, 0, 1)
+[node name="Light_Riftborn" type="OmniLight3D" parent="LightingShowcase"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 3, 0)
+light_color = Color(0.2, 1, 0.3, 1)
 light_energy = 2.0
 omni_range = 8.0
 
-[node name="RiftbornLightLabel" type="Label3D" parent="LightingShowcase" unique_id=420125393]
-modulate = Color(0, 0, 0, 1)
+[node name="RiftbornLightLabel" type="Label3D" parent="LightingShowcase"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 5, 0)
+modulate = Color(0.2, 1, 0.3, 1)
 text = "RIFTBORN MOOD"
 font_size = 28
 
-[node name="Light_Void" type="OmniLight3D" parent="LightingShowcase" unique_id=578890600]
-light_color = Color(0, 0, 0, 1)
+[node name="Light_Void" type="OmniLight3D" parent="LightingShowcase"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 3, -8)
+light_color = Color(0.8, 0.1, 0.3, 1)
 light_energy = 2.0
 omni_range = 8.0
 
-[node name="VoidLightLabel" type="Label3D" parent="LightingShowcase" unique_id=2032307192]
-modulate = Color(0, 0, 0, 1)
+[node name="VoidLightLabel" type="Label3D" parent="LightingShowcase"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 5, -8)
+modulate = Color(0.8, 0.1, 0.3, 1)
 text = "VOID / CORRUPTION MOOD"
 font_size = 28
 
-[node name="DebugHUD" type="CanvasLayer" parent="." unique_id=365310950]
+[node name="DebugHUD" type="CanvasLayer" parent="."]
 
-[node name="TitleLabel" type="Label" parent="DebugHUD" unique_id=2030541815]
-offset_right = 336.0
-offset_bottom = 23.0
-text = "DEBUG ROOM - Design Language Reference"
+[node name="TitleLabel" type="Label" parent="DebugHUD"]
+offset_left = 20.0
+offset_top = 10.0
+offset_right = 700.0
+offset_bottom = 40.0
+text = "DEBUG ROOM - Design Language Reference | Chrono Nexus Odyssey"
 
-[node name="LegendLabel" type="Label" parent="DebugHUD" unique_id=474122312]
-offset_right = 821.0
-offset_bottom = 23.0
+[node name="LegendLabel" type="Label" parent="DebugHUD"]
+offset_left = 20.0
+offset_top = 45.0
+offset_right = 950.0
+offset_bottom = 70.0
 text = "ZONES: Center=Player | Right=Enemies | Left-Front=Interactables | Back=Portal | Far-Left=Lighting Moods"
+
+[node name="ControlsLabel" type="Label" parent="DebugHUD"]
+offset_left = 20.0
+offset_top = 75.0
+offset_right = 700.0
+offset_bottom = 100.0
+text = "WASD=Move | Mouse=Look | Space=Dodge | E=Interact | Q=Temporal Shift | LMB=Attack"
